@@ -1,46 +1,56 @@
-# The majority of testing will be conducted in main.py
-def arithmetic_formatter(expressions, solve=False):
-    expressions = ["45 + 45", "32 + 26"]
-    numbers = '0123456789'
+def arithmetic_arranger(problems, solve=False):
+    if len(problems) > 5:
+        return "Error: Too many problems."
 
-    number_1 = None
-    number_2 = None
-    addition = False
-    subtraction = False
-    operation_sign = None
-    separated_list = []
+    sorted_elements = []
+    operand_1 = ""
+    operand_2 = ""
 
-    # Separates list into individual, readable elements
-    for line in expressions:
-        for word in line.split(' '):
-            separated_list.append(word)
+    for problem in problems:
+        elements = problem.split(" ")
+        print("Elements:", elements)
+        sorted_elements.append(elements)
 
-    print("The separated list:", separated_list)
+        if not elements[0].isdigit() or not elements[2].isdigit():
+            return "Error: Numbers must only contain digits."
+        elif elements[0].isdigit() and elements[2].isdigit():
+            if len(elements[0]) > 4 or 4 < len(elements[2]):
+                return "Error: Numbers cannot be more than four digits."
+            else:
+                operand_1 = elements[0]
+                operand_2 = elements[2]
 
-    # Checks for addition or subtraction
-    for i in separated_list:
-        if i == "+":
-            addition = True
-        elif i == "-":
-            subtraction = True
+        if elements[1] not in "-+":
+            return "Error: Operator must be '+' or '-'"
+        elif elements[1] in "-+":
+            operator = elements[1]
 
-    # Sets the operator to addition
-    if addition is True:
-        operation_sign = "+"
-    else:
-        pass
+        max_length = max(len(elements[0]), len(elements[2]))
+        width = max_length + 2
+        dashes = "-" * width
+        # print(sorted_elements)
 
-    # Sets the operator to subtraction
-    if subtraction is True:
-        operation_sign = "-"
-    else:
-        pass
+        # print(operand_1)
+        # print(operand_2)
 
-    print(
-        f"   {number_1}\n"
-        f"{operation_sign}  {number_2}\n"
-        "______"
-    )
+        line_1 = f"{operand_1:>{width}}"
+        line_2 = f"{operator} {operand_2}:>{width}"
+        line_3 = dashes
+
+        if solve == True:
+            if elements[1] == "+":
+                solution = int(operand_1) + int(operand_2)
+            elif elements[1] == "-":
+                solution = int(operand_1) - int(operand_2)
+        else:
+            solution = ""
+
+        results = f"{operand_1:>{width}}\n{operator}{operand_2:>{width}}" \
+                  f"\n{dashes:>{width}}\n{solution}"
+        print(results)
 
 
-print(arithmetic_formatter(["45 + 45"]))
+# print("Sorted Elements:", sorted_elements)
+# print("Length of Sorted Elements:", sorted_elements
+
+print(arithmetic_arranger(["25 + 43", "29 - 58", "3880 + 12", "34 + 798", "99 - 35"], solve=False))
